@@ -1,38 +1,313 @@
 .App {
   text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 0.5s ease-in;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.quiz-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.6s ease-out;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.question-counter {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+  animation: bounceIn 0.8s ease-out;
+}
+
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 1; transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.question h2 {
+  color: #333;
+  margin-bottom: 10px;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.question p {
+  color: #666;
+  font-style: italic;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.options {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 15px;
+  margin: 30px 0;
+}
+
+.option-button {
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 18px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.option-button:nth-child(1) { animation-delay: 0.6s; }
+.option-button:nth-child(2) { animation-delay: 0.7s; }
+.option-button:nth-child(3) { animation-delay: 0.8s; }
+.option-button:nth-child(4) { animation-delay: 0.9s; }
+
+.option-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s;
+}
+
+.option-button:hover::before {
+  left: 100%;
+}
+
+.option-button:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.option-button.selected {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-color: #2196f3;
+  color: #1976d2;
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+  animation: selectedPulse 0.6s ease-out;
+}
+
+@keyframes selectedPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1.02); }
+}
+
+.next-button {
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
   color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 40px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  animation: fadeInUp 0.8s ease-out 1s both;
 }
 
-.App-link {
-  color: #61dafb;
+.next-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.next-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.next-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.results-summary {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 20px 0;
+  animation: slideIn 0.8s ease-out;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.results-summary h2 {
+  color: #2e7d32;
+  margin-bottom: 15px;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.results-summary p {
+  font-size: 18px;
+  margin: 8px 0;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.stars {
+  font-size: 24px;
+  margin: 10px 0;
+  animation: starTwinkle 2s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.results-details {
+  text-align: left;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.result-item {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 15px 0;
+  border-left: 5px solid;
+  transition: all 0.3s ease;
+  animation: slideIn 0.6s ease-out both;
+}
+
+.result-item:nth-child(1) { animation-delay: 0.8s; }
+.result-item:nth-child(2) { animation-delay: 0.9s; }
+.result-item:nth-child(3) { animation-delay: 1s; }
+.result-item:nth-child(4) { animation-delay: 1.1s; }
+.result-item:nth-child(5) { animation-delay: 1.2s; }
+
+.result-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.result-item.correct {
+  border-left-color: #4caf50;
+  background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+}
+
+.result-item.incorrect {
+  border-left-color: #f44336;
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+}
+
+.result-item h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.result-item p {
+  margin: 5px 0;
+}
+
+.reset-button {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 40px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+  animation: bounceIn 0.8s ease-out 1.5s both;
+}
+
+.reset-button:hover {
+  background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.4);
+}
+
+.reset-button:active {
+  transform: translateY(0);
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .App {
+    padding: 10px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .quiz-container {
+    padding: 20px;
+  }
+
+  .option-button {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .next-button, .reset-button {
+    padding: 12px 30px;
+    font-size: 14px;
   }
 }
+
+.attempt-history {
+  margin-top: 30px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.attempt-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.attempt-table th,
+.attempt-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.attempt-table th {
+  background-color: #f8f8f8;
+}
+.header-image {
+  height: 40px;
+  width: 40px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
